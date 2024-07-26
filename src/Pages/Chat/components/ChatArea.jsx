@@ -1,4 +1,4 @@
-import { hasZenCreds } from "../../../Atoms";
+import { hasZenCreds, tries } from "../../../Atoms";
 import {
   Avatar,
   Box,
@@ -31,6 +31,7 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
   const queryClient = useQueryClient();
 
   const [zenCreds, setZenCreds] = useAtom(hasZenCreds);
+  const [remTries, setRemTries] = useAtom(tries)
 
   const [waiting, setWaiting] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -244,7 +245,7 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
             type={"submit"}
             size={"lg"}
             onKeyDown={(e) => handleKeyDown(e)}
-            disabled={!zenCreds}
+            disabled={(!zenCreds) || (remTries == 0)}
           >
             <IconSend />
           </Button>
