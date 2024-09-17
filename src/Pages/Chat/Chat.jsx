@@ -22,7 +22,6 @@ import { IconChevronDown, IconUser } from "@tabler/icons-react";
 import { IconChevronCompactDown } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import AddCredentials from "./components/AddCredentials";
 import { privIns } from "../../api/instances";
 import { hasZenCreds, tries, user } from "../../Atoms";
 import UserMenu from "./components/UserMenu";
@@ -118,7 +117,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <AddCredentials modalOpened={modalOpened} modalstate={modalstate} />
 
       <AppShell
         header={{ height: 60 }}

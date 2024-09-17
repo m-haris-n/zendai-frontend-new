@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import ChatRedirector from "./Pages/Chat/ChatRedirector";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import CallBack from "./Pages/Auth/CallBack";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
    {
       path: "/register",
       element: <Register />,
+   },
+   {
+      path: "/zendesk/oauth/callback",
+      element: <CallBack/>
    },
 ]);
 

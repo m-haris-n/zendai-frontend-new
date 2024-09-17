@@ -27,6 +27,13 @@ import MarkdownPreview from "@uiw/react-markdown-preview";
 import Markdown from "react-markdown";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
+const REDIRECT_URI =
+   import.meta.env.VITE_ENV_TYPE == "dev"
+      ? import.meta.env.VITE_REDIRECT_URI_DEV
+      : import.meta.env.VITE_REDIRECT_URI_PROD;
+const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
+
+
 export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
   const queryClient = useQueryClient();
 
@@ -190,16 +197,25 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
     >
       {!zenCreds && (
         <div className={"flex justify-center items-center h-full w-full "}>
-          <Title order={1} ta={"center"} maw={400}>
-            You can't use the app without adding your{" "}
-            <Title
-              component={"a"}
-              className={" hover:cursor-pointer underline"}
-              onClick={openCredsModal}
-            >
-              zendesk credentials.
-            </Title>
-          </Title>
+          <Button
+            size={"lg"}
+            color={"#17494D"}
+            radius={0}
+            onClick={() => {
+              window.location.href = `https://${localStorage.getItem(
+                "subdomain"
+              )}.zendesk.com/oauth/authorizations/new?${new URLSearchParams(
+                {
+                  response_type: "code",
+                  redirect_uri: REDIRECT_URI,
+                  client_id: ZENDESK_CLIENT_ID,
+                  scope: "tickets:read",
+                }
+              ).toString()}`;
+            }}
+          >
+            Connect with Zendesk
+          </Button>
         </div>
       )}
       <ScrollArea viewportRef={viewport} scrollbarSize={8} px={8}>

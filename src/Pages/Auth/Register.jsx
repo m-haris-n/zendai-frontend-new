@@ -31,6 +31,7 @@ export default function Register(props) {
     initialValues: {
       email: "",
       username: "",
+      subdomain: "",
       password: "",
       terms: true,
     },
@@ -72,6 +73,7 @@ export default function Register(props) {
       username: vals.username,
       email: vals.email,
       password: vals.password,
+      subdomain: vals.subdomain
     };
     // console.log(register);
     pubIns
@@ -104,6 +106,13 @@ export default function Register(props) {
           })}
         >
           <Stack>
+            <TextInput
+              required
+              size={"lg"}
+              label="Zendesk Subdomain"
+              radius="md"
+              {...form.getInputProps("subdomain")}
+            />
             <TextInput
               required
               size={"lg"}
