@@ -77,6 +77,7 @@ export default function Login(props) {
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("userid", data.user.id);
         localStorage.setItem("username", data.user.username);
+        localStorage.setItem("subdomain", data.user.subdomain);
         nav("/chat");
       })
       .catch((err) => {
