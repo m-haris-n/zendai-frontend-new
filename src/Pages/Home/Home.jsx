@@ -4,6 +4,7 @@ import { Title, Text, Button, Container, Box } from "@mantine/core";
 import classes from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
 import bg from "../../assets/supporitve-bg.png"
+import SupportiveLogo from "../utils/SupportiveLogo";
 export default function Home() {
    const nav = useNavigate();
 
@@ -24,14 +25,7 @@ export default function Home() {
 
 
             <div className={classes.inner}>
-               <Title
-                  span
-                  ta={'center'}
-                  size={60}
-                  c={'grape'}
-               >
-                  supportive
-               </Title>
+               <SupportiveLogo/>
                <Title className={classes.title} ta={'center'}>
                   Supercharge your Zendesk Support
                </Title>
