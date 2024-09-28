@@ -6,7 +6,6 @@ export default function ChatRedirector() {
    const nav = useNavigate();
 
    useEffect(() => {
-      console.log("lclstrg", localStorage);
       privIns
          .get("/chats/")
          .then((res) => {

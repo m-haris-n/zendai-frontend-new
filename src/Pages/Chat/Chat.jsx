@@ -23,10 +23,11 @@ import { IconChevronCompactDown } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { privIns } from "../../api/instances";
-import { hasZenCreds, tries, user } from "../../Atoms";
+import { areticketsLoading, hasZenCreds, tries, user } from "../../Atoms";
 import UserMenu from "./components/UserMenu";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import SupportiveLogo from "../utils/SupportiveLogo";
 
 export default function Dashboard() {
   // STATES
@@ -44,6 +45,7 @@ export default function Dashboard() {
   const [userTries, setUserTries] = useAtom(tries);
   const [chatHist, setChatHist] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
+  const [ticketsLoading, setTicketsLoading] = useAtom(areticketsLoading)
 
   // Track if the tickets are being refreshed
   const [ticketsRefreshing, setTicketsRefreshing] = useState(false);
@@ -68,14 +70,16 @@ export default function Dashboard() {
       .get("/users/me")
       .then((res) => {
         const userdata = res.data;
+
         setCurrUser(userdata);
         setUserTries(userdata.tries);
+
         if (userdata.apikey == null || userdata.subdomain == null) {
-          modalstate.open();
           setZenCreds(false);
         } else {
           setZenCreds(true);
         }
+        setTicketsLoading(userdata.is_loaded)
         setPageLoading(false);
       })
       .catch((err) => {
@@ -84,6 +88,22 @@ export default function Dashboard() {
         // console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    privIns
+      .get("/users/me")
+      .then((res) => {
+        const userdata = res.data;
+
+
+
+        setTicketsLoading(userdata.is_loaded)
+
+      })
+      .catch((err) => {
+
+      });
+  }, [ticketsRefreshing])
 
   useEffect(() => {
     privIns.get("/chats/").then((res) => {
@@ -143,15 +163,7 @@ export default function Dashboard() {
                 hiddenFrom="sm"
                 size="sm"
               />
-              <Text
-                variant="gradient"
-                size={"30px"}
-                p={4}
-                fw={700}
-                gradient={{ from: "purple", to: "blue" }}
-              >
-                Supportive
-              </Text>
+              <SupportiveLogo size={34}/>
             </Group>
             <Flex direction={"row"} gap={16} align={"center"}>
               <Button variant={"contained"} onClick={refreshTickets}>
@@ -163,7 +175,7 @@ export default function Dashboard() {
               </Button>
               <Button variant={"outline"}>{userTries} Queries left</Button>
 
-              <UserMenu openModal={modalstate.open} />
+              <UserMenu />
             </Flex>
           </Flex>
         </AppShell.Header>
@@ -172,7 +184,6 @@ export default function Dashboard() {
         </AppShell.Navbar>
         <AppShell.Main>
           <ChatArea
-            openCredsModal={modalstate.open}
             setUserTries={setUserTries}
             chatid={chatid}
           />

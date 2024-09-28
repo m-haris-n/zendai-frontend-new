@@ -1,8 +1,9 @@
-import { hasZenCreds, tries } from "../../../Atoms";
+import { areticketsLoading, hasZenCreds, tries, user } from "../../../Atoms";
 import {
   Avatar,
   Box,
   Button,
+  Divider,
   Flex,
   Group,
   Loader,
@@ -15,7 +16,7 @@ import {
   Title,
   rgba,
 } from "@mantine/core";
-import { IconSend } from "@tabler/icons-react";
+import { IconMessageChatbot, IconRobot, IconRobotFace, IconSend } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -28,22 +29,22 @@ import Markdown from "react-markdown";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const REDIRECT_URI =
-   import.meta.env.VITE_ENV_TYPE == "dev"
-      ? import.meta.env.VITE_REDIRECT_URI_DEV
-      : import.meta.env.VITE_REDIRECT_URI_PROD;
+  import.meta.env.VITE_ENV_TYPE == "dev"
+    ? import.meta.env.VITE_REDIRECT_URI_DEV
+    : import.meta.env.VITE_REDIRECT_URI_PROD;
 const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
 
 
-export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
+export default function ChatArea({ chatid, setUserTries }) {
   const queryClient = useQueryClient();
-
   const [zenCreds, setZenCreds] = useAtom(hasZenCreds);
   const [remTries, setRemTries] = useAtom(tries)
-
+  const [ticketsLoading, setTicketsLoading] = useAtom(areticketsLoading)
+  // const [ticketsLoading, setTicketsLoading] = useState(true)
   const [waiting, setWaiting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const username = localStorage.getItem("username")
   const [msgHistory, setMsgHistory] = useState([]);
 
   const msgForm = useForm({
@@ -150,30 +151,41 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
   const chat = msgHistory.map((msg) => {
     // console.log("hist:", msgHistory);
     return (
-      <Box
-        key={msg.id}
-        px={"md"}
-        bg={msg.role === "user" ? "gray.2" : ""}
-        className={"rounded-md"}
-      >
-        <Flex direction={"row"} align={"start"}>
-          <Avatar
-            size={48}
-            m={"md"}
-            color={msg.role === "user" ? "green" : "blue"}
-          />
-          <Paper my={"lg"} bg={rgba("ffffff", 0)}>
-            {msg.role == "user" && (
-              <Text lh={1} my={8}>
-                {msg.content}
-              </Text>
-            )}
-            {msg.role != "user" && (
-              <Markdown className={"p-0 m-0"}>{msg.content}</Markdown>
-            )}
-          </Paper>
-        </Flex>
-      </Box>
+      <>
+    <Box
+      key={msg.id}
+      px={"md"}
+      className={"rounded-md"}
+      
+    >
+      <Flex direction={"row"} align={"start"}>
+        <Avatar
+        variant={'filled'}
+          size={48}
+          radius={'lg'}
+          m={"md"}
+          color={msg.role == "user" ? 'blue' : 'grape'}
+        >
+          
+        {msg.role == 'user'? username[0] : 
+        <IconMessageChatbot  />
+        }
+        </Avatar>
+         
+        <Paper my={"lg"} >
+          {msg.role == "user" && (
+            <Text lh={1} my={8}>
+              {msg.content}
+            </Text>
+          )}
+          {msg.role != "user" && (
+            <Markdown className={"p-0 m-0"}>{msg.content}</Markdown>
+          )}
+        </Paper>
+      </Flex>
+    </Box>
+    <Divider/>
+      </>
     );
   });
 
@@ -218,8 +230,15 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
           </Button>
         </div>
       )}
+      {ticketsLoading && (
+        <div className={"flex justify-center items-center h-full w-1/2 mx-auto "}>
+          <Text size={"xl"} ta={'center'} >
+          We are feeding your tickets to our AI so that it can give you good answers. It will take a minute, try reloading after a few minutes
+          </Text>
+        </div>
+      )}
       <ScrollArea viewportRef={viewport} scrollbarSize={8} px={8}>
-        {zenCreds && (
+        {(zenCreds & !ticketsLoading) ? (
           <Paper h={"100%"} w={"100%"}>
             {chat}
             {waiting && <Loader ml={100} mt={20} type={"dots"} />}
@@ -237,15 +256,17 @@ export default function ChatArea({ openCredsModal, chatid, setUserTries }) {
               </Text>
             )}
           </Paper>
-        )}
+        ) : <></>}
       </ScrollArea>
       <form onSubmit={msgForm.onSubmit((vals) => msgMutation.mutate(vals))}>
+      <Divider mb={16}/>
         <Flex
           w={"100%"}
           direction={"row"}
           justify={"space-between"}
           align={"end"}
           columnGap={16}
+          
         >
           <Textarea
             size={"lg"}

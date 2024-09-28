@@ -83,28 +83,12 @@ const CallBack = () => {
                 // Perform actions with the authorization code (e.g., exchanging it for tokens)
                 try {
 
-                    const tokenResponse = await fetch(
-                        `https://${subdomain}.zendesk.com/oauth/tokens`,
-                        {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json", 'Access-Control-Allow-Origin': '*'},
-                            body: JSON.stringify({
-                                grant_type: "authorization_code",
-                                code: authorizationCode, // you will receive authentication code in your callback url's request
-                                client_id: ZENDESK_CLIENT_ID,
-                                client_secret: ZENDESK_CLIENT_SECRET,
-                                redirect_uri: REDIRECT_URI,
-                                scope: "tickets:read",
-                            }),
-                        }
-                    );
-
-                    console.log("token response:", tokenResponse);
-
-                    await privIns.put("/users/zendesk/token", {
-                        subdomain: subdomain,
-                        access_token: tokenResponse.data.access_token,
+                    const res = await privIns.put("/zendesk/oauth/callback", {
+                        code: authorizationCode,
                     });
+                    
+                    console.log("callback response:",res.data)
+                    
                     nav("/chat");
                 }
                 catch (err) {

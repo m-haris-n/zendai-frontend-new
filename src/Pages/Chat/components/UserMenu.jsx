@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { user } from "../../../Atoms";
 import { useNavigate } from "react-router-dom";
 
-export default function UserMenu({ openModal }) {
+export default function UserMenu() {
    //States
 
    const nav = useNavigate();
@@ -23,7 +23,6 @@ export default function UserMenu({ openModal }) {
          <Menu position={"bottom-end"}>
             <Menu.Target>
                <Button
-                  className={"hover:bg-slate-100"}
                   variant={"transparent"}
                   rightSection={<IconChevronDown size={18} />}
                >
@@ -37,7 +36,6 @@ export default function UserMenu({ openModal }) {
                <IconChevronDown size={18} /> */}
             </Menu.Target>
             <Menu.Dropdown>
-               <Menu.Item onClick={openModal}>Change Credentials</Menu.Item>
                <Menu.Item onClick={logoutHandler}>Log out</Menu.Item>
             </Menu.Dropdown>
          </Menu>

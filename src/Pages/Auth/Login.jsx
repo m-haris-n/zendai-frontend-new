@@ -20,6 +20,8 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pubIns } from "../../api/instances";
+import bg from "../../assets/supporitve-bg.png"
+import SupportiveLogo from "../utils/SupportiveLogo";
 
 export default function Login(props) {
   const nav = useNavigate();
@@ -89,11 +91,21 @@ export default function Login(props) {
   };
 
   return (
-    <Flex pt={80} justify={"center"}>
-      <Paper radius="md" p="xl" maw={600} w={500} withBorder {...props}>
-        <Text lh={1} size={"28px"} fw={500}>
-          Welcome to ZendAI, Login with
-        </Text>
+    <Box
+         
+         style={{
+            backgroundImage: `url(${bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+         }}
+         h={"100vh"}
+         className={"h-full w-full"}
+      >
+      
+    <Flex pt={80} justify={"center"} >
+      <Paper radius={0} p="xl" maw={600} w={500} withBorder {...props}>
+        <SupportiveLogo/>
 
         <form
           onSubmit={form.onSubmit((vals) => {
@@ -142,5 +154,6 @@ export default function Login(props) {
         )}
       </Paper>
     </Flex>
+    </Box>
   );
 }

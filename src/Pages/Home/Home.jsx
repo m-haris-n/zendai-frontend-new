@@ -1,84 +1,75 @@
 import React from "react";
-import { Title, Text, Button, Container } from "@mantine/core";
-import { Dots } from "./Dots";
+import { Title, Text, Button, Container, Box } from "@mantine/core";
+
 import classes from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
-
+import bg from "../../assets/supporitve-bg.png"
 export default function Home() {
    const nav = useNavigate();
 
    return (
-      <Container
-         className={classes.wrapper}
-         size={1400}
-         h={"100vh"}
-         style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-         }}
-      >
-         <Dots
-            className={classes.dots}
-            style={{ left: 0, top: "40%" }}
-         />
-         <Dots
-            className={classes.dots}
-            style={{ left: 60, top: "40%" }}
-         />
-         <Dots
-            className={classes.dots}
-            style={{ left: 0, top: "60%" }}
-         />
-         <Dots
-            className={classes.dots}
-            style={{ right: 0, top: "50%" }}
-         />
+      <Box style={{backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} className={'h-full w-full'}>
 
-         <div className={classes.inner}>
-            <Title className={classes.title}>
-               Ask, Analyze, Achieve with{" "}
-               <Text
+         <Container
+            className={classes.wrapper}
+            size={1400}
+            h={"100vh"}
+            style={{
+               display: "flex",
+               justifyContent: "center",
+               alignItems: "center",
+
+            }}
+         >
+
+
+            <div className={classes.inner}>
+               <Title
                   span
-                  inherit
-                  variant="gradient"
-                  gradient={{ from: "purple", to: "blue" }}
-                  fw={700}
+                  ta={'center'}
+                  size={60}
+                  c={'grape'}
                >
-                  Supportive
-               </Text>
-            </Title>
+                  supportive
+               </Title>
+               <Title className={classes.title} ta={'center'}>
+                  Supercharge your Zendesk Support
+               </Title>
 
-            <Container
-               p={0}
-               size={600}
-            >
-               <Text
-                  size="lg"
-                  c="dimmed"
-                  className={classes.description}
+               <Container
+                  
+                  size={600}
                >
-                  Stop wrangling with Zendesk Explore to get basic data, just
-                  type what you need and let Supportive do the work.
-               </Text>
-            </Container>
+                  <Text
+                     size="lg"
+                     className={classes.description}
+                     my={4}
+                  >
+                     Stop wrangling with Zendesk Explore to get basic data, just
+                     type what you need and let supportive do the work.
+                  </Text>
+               </Container>
 
-            <div className={classes.controls}>
-               <Button
-                  size={"lg"}
-                  onClick={() => nav("/register")}
-               >
-                  Register
-               </Button>
-               <Button
-                  size={"lg"}
-                  variant={"white"}
-                  onClick={() => nav("/login")}
-               >
-                  Login
-               </Button>
+               <div className={'flex flex-row gap-x-4 justify-center align-middle my-4'}>
+                  <Button
+                     radius={0}
+                     size={"lg"}
+                     onClick={() => nav("/register")}
+                  >
+                     Register
+                  </Button>
+                  <Button
+                     radius={0}
+                     size={"lg"}
+                     variant={"white"}
+                     onClick={() => nav("/login")}
+                  >
+                     Login
+                  </Button>
+               </div>
             </div>
-         </div>
-      </Container>
+         </Container>
+      </Box>
+
    );
 }
