@@ -76,28 +76,28 @@ export default function Login(props) {
       username: vals.username,
       password: vals.password,
     };
-    const loginStr = `username=${vals.username}&password=${vals.password}`;
-    // console.log(loginStr);
+    const loginStr = `username=${encodeURIComponent(vals.username)}&password=${encodeURIComponent(vals.password)}`;
+    console.log(loginStr);
     pubIns
-      .post("/token", loginStr)
-      .then((res) => {
-        setLoading(false);
-        const data = res.data;
-        // console.log(data);
-        setCurrUser(data.user)
-        localStorage.setItem("token", data.access_token);
-        localStorage.setItem("userid", data.user.id);
-        localStorage.setItem("username", data.user.username);
-        localStorage.setItem("subdomain", data.user.subdomain);
-        localStorage.setItem("type", data.user.type);
-        if(data.user.type == 'admin'){
-          nav("/dashboard");
-        }
-        else{
-          nav("/chat");
-        }
-      })
-      .catch((err) => {
+    .post("/token", loginStr)
+    .then((res) => {
+      setLoading(false);
+      const data = res.data;
+      console.log(data);
+      setCurrUser(data.user)
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("userid", data.user.id);
+      localStorage.setItem("username", data.user.username);
+      localStorage.setItem("subdomain", data.user.subdomain);
+      localStorage.setItem("type", data.user.type);
+      if(data.user.type == 'admin'){
+        nav("/dashboard");
+      }
+      else{
+        nav("/chat");
+      }
+    })
+    .catch((err) => {
         // console.log(err);
         setError(err.response.data.detail);
 
