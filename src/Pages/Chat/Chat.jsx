@@ -44,7 +44,7 @@ export default function Dashboard() {
   const [currUser, setCurrUser] = useAtom(user);
   const [userTries, setUserTries] = useAtom(tries);
   const [chatHist, setChatHist] = useState([]);
-  const [pageLoading, setPageLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [ticketsLoading, setTicketsLoading] = useAtom(areticketsLoading)
 
   // Track if the tickets are being refreshed

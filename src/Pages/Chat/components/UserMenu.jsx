@@ -10,7 +10,6 @@ export default function UserMenu() {
 
    const nav = useNavigate();
    const [currUser, setCurrUser] = useAtom(user);
-
    //Handlers
 
    const logoutHandler = () => {

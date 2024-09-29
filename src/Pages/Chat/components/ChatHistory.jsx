@@ -23,7 +23,7 @@ export default function ChatHistory({ activeid }) {
 
   const [invalidate, setInvalidate] = useState(0);
 
-  console.log("loading", loading);
+  // console.log("loading", loading);
 
   useEffect(() => {
     setChatLoading(true);

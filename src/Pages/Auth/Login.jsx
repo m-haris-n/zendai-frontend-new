@@ -22,12 +22,15 @@ import { useEffect, useState } from "react";
 import { pubIns } from "../../api/instances";
 import bg from "../../assets/supporitve-bg.png"
 import SupportiveLogo from "../utils/SupportiveLogo";
+import { useAtom } from "jotai";
+import { user } from "../../Atoms";
 
 export default function Login(props) {
   const nav = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [currUser, setCurrUser] = useAtom(user)
 
   const form = useForm({
     initialValues: {
@@ -51,7 +54,12 @@ export default function Login(props) {
     const uid = localStorage.getItem("userid");
 
     if (uid != null) {
-      nav("/chat");
+      if(localStorage.getItem("type") == 'admin'){
+        nav("/dashboard");
+      }else{
+        
+        nav("/chat");
+      }
     }
   }, []);
 
@@ -75,12 +83,19 @@ export default function Login(props) {
       .then((res) => {
         setLoading(false);
         const data = res.data;
-        console.log(data);
+        // console.log(data);
+        setCurrUser(data.user)
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("userid", data.user.id);
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("subdomain", data.user.subdomain);
-        nav("/chat");
+        localStorage.setItem("type", data.user.type);
+        if(data.user.type == 'admin'){
+          nav("/dashboard");
+        }
+        else{
+          nav("/chat");
+        }
       })
       .catch((err) => {
         // console.log(err);

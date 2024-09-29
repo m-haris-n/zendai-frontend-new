@@ -25,7 +25,7 @@ export default function Home() {
 
 
             <div className={classes.inner}>
-               <SupportiveLogo/>
+               <SupportiveLogo />
                <Title className={classes.title} ta={'center'}>
                   Supercharge your Zendesk Support
                </Title>

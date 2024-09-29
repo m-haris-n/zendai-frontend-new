@@ -77,13 +77,13 @@ export default function ChatArea({ chatid, setUserTries }) {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        // console.log(err);
       });
     scrollToBottom();
   }, [chatid]);
 
   useEffect(() => {
-    console.log("Effect", msgHistory);
+    // console.log("Effect", msgHistory);
   }, [msgHistory, queryClient.invalidateQueries]);
 
   //Queries
@@ -99,7 +99,7 @@ export default function ChatArea({ chatid, setUserTries }) {
     }
 
     let msgObj = { content: vals.content, id: id, role: "user" };
-    console.log("msgobjarr:", [...msgHistory, msgObj]);
+    // console.log("msgobjarr:", [...msgHistory, msgObj]);
 
     setMsgHistory((msgHistory) => [...msgHistory, msgObj]);
 

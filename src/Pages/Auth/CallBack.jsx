@@ -78,7 +78,7 @@ const CallBack = () => {
             const subdomain = localStorage.getItem("subdomain");
             if (authorizationCode) {
                 // Handle the authorization code, e.g., send it to your server
-                console.log("Authorization Code: ", authorizationCode);
+                // console.log("Authorization Code: ", authorizationCode);
 
                 // Perform actions with the authorization code (e.g., exchanging it for tokens)
                 try {
@@ -87,12 +87,13 @@ const CallBack = () => {
                         code: authorizationCode,
                     });
                     
-                    console.log("callback response:",res.data)
+                    // console.log("callback response:",res.data)
                     
                     nav("/chat");
                 }
                 catch (err) {
-                    console.log(err);
+                    nav("/");
+                    // console.log(err);
                 }
             }
         }

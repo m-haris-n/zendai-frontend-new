@@ -122,7 +122,6 @@ export default function Auth(props) {
                nav(0, { state: { auth_type: "login" } });
             })
             .catch((err) => {
-               console.log(err.response.data.detail);
                setError(err.response.data.detail);
                setLoading(false);
                // console.log(err);

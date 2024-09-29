@@ -91,7 +91,7 @@ export default function Register(props) {
             nav("/login");
          })
          .catch((err) => {
-            console.log(err.response.data.detail);
+            // console.log(err.response.data.detail);
             setError(err.response.data.detail);
             setLoading(false);
             // console.log(err);

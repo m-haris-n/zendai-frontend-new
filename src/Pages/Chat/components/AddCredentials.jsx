@@ -29,7 +29,7 @@ export default function AddCredentials({ modalOpened, modalstate }) {
   const addCredsToUser = (vals) => {
     setAddCredErr(false);
     setAddCredLoad(true);
-    console.log(vals);
+    // console.log(vals);
 
     const body = {
       subdomain: vals.subdomain,
