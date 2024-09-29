@@ -12,6 +12,7 @@ import Dashboard from "./Pages/Admin/Dashboard";
 import { privIns } from "./api/instances";
 import { useAtom } from "jotai";
 import { user } from "./Atoms";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
@@ -48,9 +49,12 @@ const router = createBrowserRouter([
 
 export function Router() {
    const [currUser, setCurrUser] = useAtom(user)
-   privIns.get('/users/me').then(res => {
-      setCurrUser(res.data)
-   })
+   useEffect(()=> {
+      
+      privIns.get('/users/me').then(res => {
+         setCurrUser(res.data)
+      })
+   }, [])
    
    return (
       <QueryClientProvider client={queryClient}>
