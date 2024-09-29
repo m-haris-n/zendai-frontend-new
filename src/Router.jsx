@@ -13,6 +13,7 @@ import { privIns } from "./api/instances";
 import { useAtom } from "jotai";
 import { user } from "./Atoms";
 import { useEffect } from "react";
+import NotFound from "./Pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,9 @@ const router = createBrowserRouter([
    {
       path: "/dashboard",
       element: <Dashboard/>
+   },{
+      path: "*",
+      element: <NotFound/>
    },
 ]);
 
