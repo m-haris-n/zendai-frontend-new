@@ -16,7 +16,7 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <React.StrictMode>
-      <MantineProvider defaultColorScheme={'auto'} theme={theme}>
+      <MantineProvider defaultColorScheme={'dark'} theme={theme}>
          <Router />
       </MantineProvider>
    </React.StrictMode>
