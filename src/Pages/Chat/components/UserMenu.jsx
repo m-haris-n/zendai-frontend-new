@@ -27,14 +27,13 @@ export default function UserMenu() {
                >
                   {currUser.username}
                </Button>
-               {/* <Avatar
-                  src={null}
-                  size={"sm"}
-               />
-               <Text >UserName</Text>
-               <IconChevronDown size={18} /> */}
+               
             </Menu.Target>
             <Menu.Dropdown>
+               {currUser.type == 'admin' && 
+               <Menu.Item onClick={()=> nav("/chat")}>Chats</Menu.Item>}
+               {currUser.type == 'admin' && 
+               <Menu.Item onClick={()=> nav("/dashboard")}>Dashboard</Menu.Item>}
                <Menu.Item onClick={logoutHandler}>Log out</Menu.Item>
             </Menu.Dropdown>
          </Menu>
