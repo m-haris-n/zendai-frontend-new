@@ -11,60 +11,6 @@ const REDIRECT_URI =
 const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
 const ZENDESK_CLIENT_SECRET = import.meta.env.VITE_ZENDESK_CLIENT_SECRET;
 
-const requestWithForm = (authorizationCode, subdomain) => {
-    // Create a form element
-    var form = document.createElement("form");
-    form.setAttribute("method", "POST");
-    form.setAttribute("action", `https://${subdomain}.zendesk.com/oauth/tokens`);
-
-    // Create hidden input fields for each parameter in the request
-
-    // client_id
-    var clientIdInput = document.createElement("input");
-    clientIdInput.setAttribute("type", "hidden");
-    clientIdInput.setAttribute("name", "client_id");
-    clientIdInput.setAttribute("value", ZENDESK_CLIENT_ID); // Replace with your actual client ID
-    form.appendChild(clientIdInput);
-
-    // client_secret
-    var clientSecretInput = document.createElement("input");
-    clientSecretInput.setAttribute("type", "hidden");
-    clientSecretInput.setAttribute("name", "client_secret");
-    clientSecretInput.setAttribute("value", ZENDESK_CLIENT_SECRET); // Replace with your actual client secret
-    form.appendChild(clientSecretInput);
-
-    // grant_type
-    var grantTypeInput = document.createElement("input");
-    grantTypeInput.setAttribute("type", "hidden");
-    grantTypeInput.setAttribute("name", "grant_type");
-    grantTypeInput.setAttribute("value", "authorization_code");
-    form.appendChild(grantTypeInput);
-
-    // code (authorization code)
-    var codeInput = document.createElement("input");
-    codeInput.setAttribute("type", "hidden");
-    codeInput.setAttribute("name", "code");
-    codeInput.setAttribute("value", authorizationCode); // The authorization code obtained from Zendesk
-    form.appendChild(codeInput);
-
-    // redirect_uri
-    var redirectUriInput = document.createElement("input");
-    redirectUriInput.setAttribute("type", "hidden");
-    redirectUriInput.setAttribute("name", "redirect_uri");
-    redirectUriInput.setAttribute("value", REDIRECT_URI); // Your app's redirect URI
-    form.appendChild(redirectUriInput);
-
-    // scope (if needed)
-    var scopeInput = document.createElement("input");
-    scopeInput.setAttribute("type", "hidden");
-    scopeInput.setAttribute("name", "scope");
-    scopeInput.setAttribute("value", "tickets:read");
-    form.appendChild(scopeInput);
-
-    // Append the form to the document body and submit it
-    document.body.appendChild(form);
-    form.submit();
-};
 
 const CallBack = () => {
     const loc = useLocation();
