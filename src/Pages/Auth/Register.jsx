@@ -35,7 +35,7 @@ export default function Register(props) {
          username: "",
          subdomain: "",
          password: "",
-         terms: true,
+         terms: false,
       },
 
       validate: {
