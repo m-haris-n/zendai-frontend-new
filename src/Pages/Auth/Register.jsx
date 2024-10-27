@@ -15,6 +15,7 @@ import {
    Flex,
    Loader,
    Alert,
+   Modal,
 } from "@mantine/core";
 // import { GoogleButton } from "@/components/buttons/GoogleButton";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,12 +23,25 @@ import { useEffect, useState } from "react";
 import { pubIns } from "../../api/instances";
 import bg from "../../assets/supporitve-bg.png"
 import SupportiveLogo from "../utils/SupportiveLogo";
+import { action } from "../../Atoms";
+import { useAtom } from "jotai";
+
+
+const REDIRECT_URI =
+    import.meta.env.VITE_ENV_TYPE == "dev"
+        ? import.meta.env.VITE_REDIRECT_URI_DEV
+        : import.meta.env.VITE_REDIRECT_URI_PROD;
+const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
+const ZENDESK_CLIENT_SECRET = import.meta.env.VITE_ZENDESK_CLIENT_SECRET;
 
 export default function Register(props) {
    const nav = useNavigate();
 
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(false);
+   const [actionState, setAction] = useAtom(action)
+   const [modalOpened, setModalOpened] = useState(false);
+   const [subdomain, setSubdomain] = useState("");
 
    const form = useForm({
       initialValues: {
@@ -98,15 +112,24 @@ export default function Register(props) {
          });
    };
 
+   const handleZendeskSignup = () => {
+      setModalOpened(true);
+   };
+
+   const handleSubdomainSubmit = () => {
+      setModalOpened(false);
+      setAction("register");
+      localStorage.setItem("subdomain", subdomain);
+      window.location.href = `https://${subdomain}.zendesk.com/oauth/authorizations/new?${new URLSearchParams({
+         response_type: "code",
+         redirect_uri: REDIRECT_URI,
+         client_id: ZENDESK_CLIENT_ID,
+         scope: "tickets:read",
+      }).toString()}`;
+   };
+
    return (
       <Box
-         
-         style={{
-            backgroundImage: `url(${bg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-         }}
          h={"100vh"}
          className={"h-full w-full"}
       >
@@ -122,8 +145,11 @@ export default function Register(props) {
                withBorder
                {...props}
             >
-              <SupportiveLogo size={50}/>
-               
+               <SupportiveLogo size={50} />
+               <Button fullWidth={true} size={"lg"} color={"#17494D"} my={16} onClick={handleZendeskSignup}>
+                  Sign up with Zendesk
+               </Button>
+               <Divider label="OR" size={"sm"} />
                <form
                   onSubmit={form.onSubmit((vals) => {
                      // console.log(vals);
@@ -163,32 +189,19 @@ export default function Register(props) {
                         {...form.getInputProps("password")}
                         radius="md"
                      />
-
+                     {/* 
                      <Checkbox
                         size={"lg"}
                         label="I accept terms and conditions"
                         {...form.getInputProps("terms", { type: "checkbox" })}
-                     />
-                  </Stack>
-
-                  <Group
-                     justify="space-between"
-                     mt="xl"
-                  >
-                     <Anchor
-                        component="button"
-                        type="button"
-                        c="dimmed"
-                        onClick={() => toggle()}
-                        size="s"
-                     >
-                        "Already have an account? Login"
-                     </Anchor>
+                        
+                     /> */}
                      <Button
+                        fullWidth={true}
                         size={"lg"}
                         type="submit"
                         radius="xl"
-                        w={150}
+
                      >
                         {loading ? (
                            <Loader
@@ -199,7 +212,20 @@ export default function Register(props) {
                            "Register"
                         )}
                      </Button>
-                  </Group>
+                  </Stack>
+
+
+                  <Anchor
+                     my={16}
+                     component="button"
+                     type="button"
+                     c="dimmed"
+                     size="s"
+                     onClick={() => toggle()}
+                  >
+                     "Already have an account? Login"
+                  </Anchor>
+
                </form>
                {error && (
                   <Alert
@@ -212,6 +238,22 @@ export default function Register(props) {
                )}
             </Paper>
          </Flex>
+         <Modal
+         centered={true}
+            opened={modalOpened}
+            onClose={() => setModalOpened(false)}
+            title="Enter your Zendesk subdomain"
+         >
+            <TextInput
+               label="Subdomain"
+               placeholder="Enter your Zendesk subdomain"
+               value={subdomain}
+               onChange={(event) => setSubdomain(event.currentTarget.value)}
+            />
+            <Button onClick={handleSubdomainSubmit} mt="md">
+               Continue
+            </Button>
+         </Modal>
       </Box>
    );
 }

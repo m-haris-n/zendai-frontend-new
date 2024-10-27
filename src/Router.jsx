@@ -14,14 +14,18 @@ import { useAtom } from "jotai";
 import { user } from "./Atoms";
 import { useEffect } from "react";
 import NotFound from "./Pages/NotFound";
+import { HomeNew } from "./Pages/HomeNew/HomeNew";
+
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
+   
    {
       path: "/",
-      element: <Home />,
+      element: <HomeNew />,
    },
+   
    {
       path: "/chat",
       element: <ChatRedirector />,
@@ -35,7 +39,7 @@ const router = createBrowserRouter([
       element: <Login />,
    },
    {
-      path: "/register",
+      path: "/signup",
       element: <Register />,
    },
    {
@@ -56,9 +60,11 @@ export function Router() {
    const [currUser, setCurrUser] = useAtom(user)
    useEffect(()=> {
       
-      privIns.get('/users/me').then(res => {
-         setCurrUser(res.data)
-      })
+      // privIns.get('/users/me').then(res => {
+      //    setCurrUser(res.data)
+      // }).catch(err => {
+        
+      // })
    }, [])
    
    return (

@@ -9,7 +9,7 @@ export default function Home() {
    const nav = useNavigate();
 
    return (
-      <Box style={{backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} className={'h-full w-full'}>
+      <Box  className={'h-full w-full'}>
 
          <Container
             className={classes.wrapper}

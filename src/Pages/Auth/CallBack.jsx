@@ -1,62 +1,67 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { privIns } from "../../api/instances";
-import axios from "axios";
+import { privIns, pubIns } from "../../api/instances";
 import { Flex, Loader } from "@mantine/core";
-
-const REDIRECT_URI =
-    import.meta.env.VITE_ENV_TYPE == "dev"
-        ? import.meta.env.VITE_REDIRECT_URI_DEV
-        : import.meta.env.VITE_REDIRECT_URI_PROD;
-const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
-const ZENDESK_CLIENT_SECRET = import.meta.env.VITE_ZENDESK_CLIENT_SECRET;
-
+import { useAtom } from "jotai";
+import { action } from "../../Atoms";
 
 const CallBack = () => {
     const loc = useLocation();
     const nav = useNavigate();
+    const [actionState, setAction] = useAtom(action);
 
     useEffect(() => {
         async function callbackProcess() {
-            // Extract query parameters from the URL
             const params = new URLSearchParams(loc.search);
-            const authorizationCode = params.get("code"); // Get the "code" parameter from Zendesk
+            const authorizationCode = params.get("code");
             const subdomain = localStorage.getItem("subdomain");
-            if (authorizationCode) {
-                // Handle the authorization code, e.g., send it to your server
-                // console.log("Authorization Code: ", authorizationCode);
+            const caller = actionState === "register" || actionState === "login" ? privIns : pubIns;
 
-                // Perform actions with the authorization code (e.g., exchanging it for tokens)
+            if (authorizationCode && authorizationCode.length > 0) {
                 try {
-
-                    const res = await privIns.put("/zendesk/oauth/callback", {
+                    const res = await caller.put("/zendesk/oauth/callback", {
                         code: authorizationCode,
+                        subdomain: subdomain,
+                        action: actionState
                     });
-                    
-                    // console.log("callback response:",res.data)
-                    
-                    nav("/chat");
-                }
-                catch (err) {
+
+                    console.log("Callback response:", res.data);
+                    if (actionState === "register" || actionState === "login") {
+                        localStorage.setItem("token", res.data.access_token);
+                        localStorage.setItem("userid", res.data.user.id);
+                        localStorage.setItem("username", res.data.user.username);
+                        localStorage.setItem("subdomain", res.data.user.subdomain);
+                        localStorage.setItem("type", res.data.user.type);
+                        setAction("fetch");
+                        nav("/chat");
+                    }
+                    else {
+                        setAction("fetch");
+                        nav("/chat");
+                    }
+                } catch (err) {
+                    console.error("Error during callback process:", err);
                     nav("/");
-                    // console.log(err);
                 }
+            } else {
+                console.error("No authorization code found");
+                nav("/");
             }
         }
 
         callbackProcess();
-    }, [loc]);
+    }, [loc, nav, actionState, setAction]);
 
     return (
         <Flex
-            direction={"column"}
-            w={"100%"}
-            h={"90vh"}
-            justify={"center"}
-            align={"center"}
+            direction="column"
+            w="100%"
+            h="90vh"
+            justify="center"
+            align="center"
         >
             <Loader />
-            Please wait...
+            <p>Please wait...</p>
         </Flex>
     );
 };

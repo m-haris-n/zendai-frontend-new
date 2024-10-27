@@ -23,7 +23,7 @@ import { IconChevronCompactDown } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { privIns } from "../../api/instances";
-import { areticketsLoading, hasZenCreds, tries, user } from "../../Atoms";
+import { action, areticketsLoading, hasZenCreds, tries, user } from "../../Atoms";
 import UserMenu from "./components/UserMenu";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -49,7 +49,7 @@ export default function Dashboard() {
 
   // Track if the tickets are being refreshed
   const [ticketsRefreshing, setTicketsRefreshing] = useState(false);
-
+  const [actionState, setAction] = useAtom(action);
   // INIT CHECKERS
 
   // PRE-CHECKERS
@@ -125,6 +125,7 @@ export default function Dashboard() {
    */
   const refreshTickets = () => {
     setTicketsRefreshing(true);
+    setAction("fetch");
     privIns
       .put("/users/tickets")
       .then((res) => {

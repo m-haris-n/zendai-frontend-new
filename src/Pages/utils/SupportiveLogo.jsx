@@ -7,10 +7,8 @@ export default function SupportiveLogo({ta,size}) {
     return (
       <Title
         className={"hover:cursor-pointer"}
-         span
          ta={ta ? ta : "center"}
-         size={size? size : 60}
-         c={"grape"}
+         size={size? size : 40}
          onClick={()=> nav("/")}
       >
          supportive

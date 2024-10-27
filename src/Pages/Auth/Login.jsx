@@ -15,6 +15,7 @@ import {
   Flex,
   Loader,
   Alert,
+  Modal,
 } from "@mantine/core";
 // import { GoogleButton } from "@/components/buttons/GoogleButton";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,7 +24,15 @@ import { pubIns } from "../../api/instances";
 import bg from "../../assets/supporitve-bg.png"
 import SupportiveLogo from "../utils/SupportiveLogo";
 import { useAtom } from "jotai";
-import { user } from "../../Atoms";
+import { action, user } from "../../Atoms";
+
+
+const REDIRECT_URI =
+    import.meta.env.VITE_ENV_TYPE == "dev"
+        ? import.meta.env.VITE_REDIRECT_URI_DEV
+        : import.meta.env.VITE_REDIRECT_URI_PROD;
+const ZENDESK_CLIENT_ID = import.meta.env.VITE_ZENDESK_CLIENT_ID;
+const ZENDESK_CLIENT_SECRET = import.meta.env.VITE_ZENDESK_CLIENT_SECRET;
 
 export default function Login(props) {
   const nav = useNavigate();
@@ -31,6 +40,9 @@ export default function Login(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [currUser, setCurrUser] = useAtom(user)
+  const [actionState, setAction] = useAtom(action)
+  const [modalOpened, setModalOpened] = useState(false);
+  const [subdomain, setSubdomain] = useState("");
 
   const form = useForm({
     initialValues: {
@@ -66,7 +78,7 @@ export default function Login(props) {
   //HANDLERS
 
   const toggle = () => {
-    nav("/register");
+    nav("/signup");
   };
 
   const handleAuth = (vals) => {
@@ -105,15 +117,21 @@ export default function Login(props) {
       });
   };
 
+  const handleZendeskLogin = () => {
+    setAction("login");
+    if (subdomain) {
+      window.location.href = `https://${subdomain}.zendesk.com/oauth/authorizations/new?${new URLSearchParams({
+        response_type: "code",
+        redirect_uri: REDIRECT_URI,
+        client_id: ZENDESK_CLIENT_ID,
+        scope: "tickets:read",
+      }).toString()}`;
+    }
+  };
+
   return (
     <Box
          
-         style={{
-            backgroundImage: `url(${bg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-         }}
          h={"100vh"}
          className={"h-full w-full"}
       >
@@ -121,7 +139,24 @@ export default function Login(props) {
     <Flex pt={80} justify={"center"} >
       <Paper radius={0} p="xl" maw={600} w={500} withBorder {...props}>
         <SupportiveLogo/>
-
+        <Button fullWidth={true} size={"lg"} color={"#17494D"} my={16} onClick={() => setModalOpened(true)}>
+          Login with Zendesk
+        </Button>
+        <Modal
+          opened={modalOpened}
+          onClose={() => setModalOpened(false)}
+          title="Enter your Zendesk subdomain"
+        >
+          <TextInput
+            placeholder="Your subdomain"
+            value={subdomain}
+            onChange={(event) => setSubdomain(event.currentTarget.value)}
+          />
+          <Button onClick={handleZendeskLogin} mt="md">
+            Continue
+          </Button>
+        </Modal>
+        <Divider label="OR" size={"sm"} />
         <form
           onSubmit={form.onSubmit((vals) => {
             // console.log(vals);
@@ -148,6 +183,9 @@ export default function Login(props) {
           </Stack>
 
           <Group justify="space-between" mt="xl">
+            <Button size={"lg"} type="submit" radius="xl" fullWidth={true}>
+              {loading ? <Loader color={"white"} size={"sm"} /> : "Login"}
+            </Button>
             <Anchor
               component="button"
               type="button"
@@ -157,9 +195,6 @@ export default function Login(props) {
             >
               "Don't have an account? Register"
             </Anchor>
-            <Button size={"lg"} type="submit" radius="xl" w={150}>
-              {loading ? <Loader color={"white"} size={"sm"} /> : "Login"}
-            </Button>
           </Group>
         </form>
         {error && (

@@ -8,15 +8,16 @@ import { Router } from "./Router.jsx";
 const theme = createTheme({
    fontFamily: 'Lato',
    headings: { fontFamily: 'Jost', fontWeight: 700 },
-   primaryColor: 'grape',
+   primaryColor: "dark",
    primaryShade: {
-      light: 6, dark: 9
+      light: 9
    },
+   
 })
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <React.StrictMode>
-      <MantineProvider defaultColorScheme={'dark'} theme={theme}>
+      <MantineProvider  theme={theme}>
          <Router />
       </MantineProvider>
    </React.StrictMode>
