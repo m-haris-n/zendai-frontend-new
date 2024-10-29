@@ -25,7 +25,7 @@ const CallBack = () => {
                         action: actionState
                     });
 
-                    console.log("Callback response:", res.data);
+                    console.log("Callback response:", res);
                     localStorage.setItem("action", "fetch");
                     if (actionState === "signup" || actionState === "login") {
                         localStorage.setItem("token", res.data.access_token);
