@@ -214,6 +214,7 @@ export default function ChatArea({ chatid, setUserTries }) {
             color={"#17494D"}
             radius={0}
             onClick={() => {
+              localStorage.setItem("action", "fetch");
               window.location.href = `https://${localStorage.getItem(
                 "subdomain"
               )}.zendesk.com/oauth/authorizations/new?${new URLSearchParams(

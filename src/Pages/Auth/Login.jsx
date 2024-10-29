@@ -118,7 +118,7 @@ export default function Login(props) {
   };
 
   const handleZendeskLogin = () => {
-    setAction("login");
+    localStorage.setItem("action", "login");
     if (subdomain) {
       window.location.href = `https://${subdomain}.zendesk.com/oauth/authorizations/new?${new URLSearchParams({
         response_type: "code",

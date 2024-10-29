@@ -8,7 +8,7 @@ import { action } from "../../Atoms";
 const CallBack = () => {
     const loc = useLocation();
     const nav = useNavigate();
-    const [actionState, setAction] = useAtom(action);
+    const actionState = localStorage.getItem("action");
 
     useEffect(() => {
         async function callbackProcess() {
@@ -26,19 +26,15 @@ const CallBack = () => {
                     });
 
                     console.log("Callback response:", res.data);
+                    localStorage.setItem("action", "fetch");
                     if (actionState === "register" || actionState === "login") {
                         localStorage.setItem("token", res.data.access_token);
                         localStorage.setItem("userid", res.data.user.id);
                         localStorage.setItem("username", res.data.user.username);
                         localStorage.setItem("subdomain", res.data.user.subdomain);
                         localStorage.setItem("type", res.data.user.type);
-                        setAction("fetch");
-                        nav("/chat");
                     }
-                    else {
-                        setAction("fetch");
-                        nav("/chat");
-                    }
+                    nav("/chat");
                 } catch (err) {
                     console.error("Error during callback process:", err);
                     nav("/");
@@ -50,7 +46,7 @@ const CallBack = () => {
         }
 
         callbackProcess();
-    }, [loc, nav, actionState, setAction]);
+    }, [loc, nav, actionState]);
 
     return (
         <Flex
