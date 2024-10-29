@@ -15,7 +15,7 @@ const CallBack = () => {
             const params = new URLSearchParams(loc.search);
             const authorizationCode = params.get("code");
             const subdomain = localStorage.getItem("subdomain");
-            const caller = actionState === "register" || actionState === "login" ? privIns : pubIns;
+            const caller = actionState === "signup" || actionState === "login" ? privIns : pubIns;
 
             if (authorizationCode && authorizationCode.length > 0) {
                 try {
