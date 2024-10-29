@@ -27,7 +27,7 @@ const CallBack = () => {
 
                     console.log("Callback response:", res.data);
                     localStorage.setItem("action", "fetch");
-                    if (actionState === "register" || actionState === "login") {
+                    if (actionState === "signup" || actionState === "login") {
                         localStorage.setItem("token", res.data.access_token);
                         localStorage.setItem("userid", res.data.user.id);
                         localStorage.setItem("username", res.data.user.username);
