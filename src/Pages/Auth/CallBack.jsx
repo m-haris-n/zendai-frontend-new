@@ -15,7 +15,7 @@ const CallBack = () => {
             const params = new URLSearchParams(loc.search);
             const authorizationCode = params.get("code");
             const subdomain = localStorage.getItem("subdomain");
-            const caller = actionState === "signup" || actionState === "login" ? privIns : pubIns;
+            const caller = actionState === "register" || actionState === "login" ? privIns : pubIns;
 
             if (authorizationCode && authorizationCode.length > 0) {
                 try {
@@ -27,7 +27,7 @@ const CallBack = () => {
 
                     console.log("Callback response:", res);
                     localStorage.setItem("action", "fetch");
-                    if (actionState === "signup" || actionState === "login") {
+                    if (actionState === "register" || actionState === "login") {
                         localStorage.setItem("token", res.data.access_token);
                         localStorage.setItem("userid", res.data.user.id);
                         localStorage.setItem("username", res.data.user.username);

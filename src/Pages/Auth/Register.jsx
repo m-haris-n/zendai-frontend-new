@@ -118,7 +118,7 @@ export default function Register(props) {
 
    const handleSubdomainSubmit = () => {
       setModalOpened(false);
-      localStorage.setItem("action", "signup");
+      localStorage.setItem("action", "register");
       localStorage.setItem("subdomain", subdomain);
       window.location.href = `https://${subdomain}.zendesk.com/oauth/authorizations/new?${new URLSearchParams({
          response_type: "code",
