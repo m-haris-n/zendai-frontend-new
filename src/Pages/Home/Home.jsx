@@ -3,7 +3,6 @@ import { Title, Text, Button, Container, Box } from "@mantine/core";
 
 import classes from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
-import bg from "../../assets/supporitve-bg.png"
 import SupportiveLogo from "../utils/SupportiveLogo";
 export default function Home() {
    const nav = useNavigate();

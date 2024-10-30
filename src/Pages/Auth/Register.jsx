@@ -21,7 +21,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { pubIns } from "../../api/instances";
-import bg from "../../assets/supporitve-bg.png"
 import SupportiveLogo from "../utils/SupportiveLogo";
 import { action } from "../../Atoms";
 import { useAtom } from "jotai";
@@ -146,10 +145,10 @@ export default function Register(props) {
                {...props}
             >
                <SupportiveLogo size={50} />
-               <Button fullWidth={true} size={"lg"} color={"#17494D"} my={16} onClick={handleZendeskSignup}>
+               {/* <Button fullWidth={true} size={"lg"} color={"#17494D"} my={16} onClick={handleZendeskSignup}>
                   Sign up with Zendesk
                </Button>
-               <Divider label="OR" size={"sm"} />
+               <Divider label="OR" size={"sm"} /> */}
                <form
                   onSubmit={form.onSubmit((vals) => {
                      // console.log(vals);

@@ -91,31 +91,31 @@ export default function MainHeader() {
     ));
 
     return (
-        <div  >
-                <Container className={classes.header} size={"xl"} h={"70px"}>
+        <Box className={classes.header}>
+            <Container size={"xl"} h={"100%"} >
 
-                    <Group justify="space-between" h="100%">
-                        <SupportiveLogo />
+                <Group justify="space-between" h="100%">
+                    <SupportiveLogo />
 
-                        <Group h="100%" gap={0} visibleFrom="sm">
+                    <Group h="100%" gap={0} visibleFrom="sm">
 
-                            <a href="#" className={classes.link}>
-                                Pricing
-                            </a>
-                            <a href="#" className={classes.link}>
-                                Privacy
-                            </a>
-                        </Group>
-
-                        <Group >
-                            <Button variant="default" onClick={() => navigate("/login")}>Log in</Button>
-                            <Button onClick={() => navigate("/signup")}>Sign up</Button>
-                        </Group>
-
-                        <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+                        <a href="#" className={classes.link}>
+                            Pricing
+                        </a>
+                        <a href="#" className={classes.link}>
+                            Privacy
+                        </a>
                     </Group>
-                    </Container>
-            
+
+                    <Group >
+                        <Button variant="default" onClick={() => navigate("/login")}>Log in</Button>
+                        <Button onClick={() => navigate("/signup")}>Sign up</Button>
+                    </Group>
+
+                    <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+                </Group>
+            </Container>
+
 
             <Drawer
                 opened={drawerOpened}
@@ -146,6 +146,6 @@ export default function MainHeader() {
                     </Group>
                 </ScrollArea>
             </Drawer>
-        </div>
+        </Box>
     );
 }
