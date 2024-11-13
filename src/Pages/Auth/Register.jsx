@@ -188,13 +188,11 @@ export default function Register(props) {
                         {...form.getInputProps("password")}
                         radius="md"
                      />
-                     {/* 
                      <Checkbox
                         size={"lg"}
-                        label="I accept terms and conditions"
+                        label={<Text lh={"xl"}>I accept <Anchor href="/privacy" target="_blank" underline="always">terms and conditions</Anchor></Text>}
                         {...form.getInputProps("terms", { type: "checkbox" })}
-                        
-                     /> */}
+                     />
                      <Button
                         fullWidth={true}
                         size={"lg"}

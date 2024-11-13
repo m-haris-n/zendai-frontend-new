@@ -99,15 +99,18 @@ export default function MainHeader() {
 
                     <Group h="100%" gap={0} visibleFrom="sm">
 
-                        <a href="#" className={classes.link}>
+                        <a href="/" className={classes.link}>
+                            Home
+                        </a>
+                        <a href="/pricing" className={classes.link}>
                             Pricing
                         </a>
-                        <a href="#" className={classes.link}>
+                        <a href="/privacy" className={classes.link}>
                             Privacy
                         </a>
                     </Group>
 
-                    <Group >
+                    <Group visibleFrom="sm">
                         <Button variant="default" onClick={() => navigate("/login")}>Log in</Button>
                         <Button onClick={() => navigate("/signup")}>Sign up</Button>
                     </Group>
@@ -129,12 +132,15 @@ export default function MainHeader() {
                 <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
                     <Divider my="sm" />
 
-                    <a href="#" className={classes.link}>
+                    <a href="/" className={classes.link}>
+                        Home
+                    </a>
+                    <a href="/pricing" className={classes.link}>
                         Pricing
                     </a>
 
                     <Collapse in={linksOpened}>{links}</Collapse>
-                    <a href="#" className={classes.link}>
+                    <a href="/privacy" className={classes.link}>
                         Privacy
                     </a>
 

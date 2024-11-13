@@ -15,7 +15,8 @@ import { user } from "./Atoms";
 import { useEffect } from "react";
 import NotFound from "./Pages/NotFound";
 import { HomeNew } from "./Pages/HomeNew/HomeNew";
-
+import Pricing from "./Pages/HomeNew/Pricing";
+import Privacy from "./Pages/HomeNew/Privacy";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +26,14 @@ const router = createBrowserRouter([
       path: "/",
       element: <HomeNew />,
    },
-   
+   {
+      path: "/pricing",
+      element: <Pricing/>
+   },
+   {
+      path: "/privacy",
+      element: <Privacy/>
+   },
    {
       path: "/chat",
       element: <ChatRedirector />,
