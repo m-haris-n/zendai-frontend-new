@@ -143,7 +143,7 @@ export default function Pricing() {
                                     radius={"xl"}
                                     variant={"outline"}
                                 >
-                                    Contact Sales
+                                    Coming Soon
                                 </Button>
                             </Card>
                         </Grid.Col>
@@ -197,7 +197,7 @@ export default function Pricing() {
                                     radius={"xl"}
                                     variant={"outline"}
                                 >
-                                    Contact Sales
+                                    Coming Soon
                                 </Button>
                             </Card>
                         </Grid.Col>

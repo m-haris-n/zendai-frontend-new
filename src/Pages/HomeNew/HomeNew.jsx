@@ -16,7 +16,7 @@ import { IconCheck } from "@tabler/icons-react";
 import classes from "./HomeNew.module.css";
 import MainHeader from "./components/MainHeader";
 import { useNavigate } from "react-router-dom";
-import homeImage from "/Asset 11.png";
+import homeImage from "/homeimage.png";
 
 export function HomeNew() {
   const navigate = useNavigate();
