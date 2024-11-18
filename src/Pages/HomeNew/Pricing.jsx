@@ -13,8 +13,10 @@ import {
 } from "@mantine/core";
 import MainHeader from "./components/MainHeader";
 import { IconCheck, IconCircleCheck } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Pricing() {
+    const navigate = useNavigate();
     return (
         <>
             <MainHeader />
